@@ -1,0 +1,34 @@
+{
+  "name": "create_movie_entries_week_1_challenge",
+  "version": "1.0.0",
+  "description": "Node.js app presenting a form to create movie entries and submitting them into mongo dbs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielknguyen/create_movie_entries_week_1_challenge.git"
+  },
+  "keywords": [
+    "mongodb",
+    "node.js",
+    "express.js",
+    "npm",
+    "node.js",
+    "driver"
+  ],
+  "author": "Daniel Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielknguyen/create_movie_entries_week_1_challenge/issues"
+  },
+  "homepage": "https://github.com/danielknguyen/create_movie_entries_week_1_challenge#readme",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "consolidate": "^0.15.0",
+    "express": "^4.16.2",
+    "mongodb": "^3.0.1",
+    "nunjucks": "^3.0.1"
+  }
+}
