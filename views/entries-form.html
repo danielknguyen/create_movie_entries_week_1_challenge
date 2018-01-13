@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+
+{% block header %}
+<h1>Entries Form</h1>
+{% endblock %}
+
+{% block content %}
+  <!-- form to submit a movie into movies collections -->
+  <form action="/" method="post">
+    <fieldsest>
+      <!-- input for movie title -->
+      <div>
+        <label for="movie_title">Enter movie title: </label>
+        <input id="movie_title" type="text" name="movie[title]" value="Input title of the movie" required>
+      </div>
+      <!-- input for year of the movie -->
+      <div>
+        <label for="movie_year">Enter year movie aired: </label>
+        <input id="movie_year" type="text" name="movie[year]" value="Input year movie aired" required>
+      </div>
+      <!-- input imdb link -->
+      <div>
+        <label for="movie_imdb_link">Enter imdb link: </label>
+        <input id="movie_imdb_link" type="text" name="movie[imdb]" value="Input movie imdb link" required>
+      </div>
+      <input type="submit" value="Submit">
+    </fieldset>
+  </form>
+{% endblock %}
