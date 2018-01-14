@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% block header %}
-<h1>View Entries</h1>
+<h1 class="header-title">View Entries</h1>
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
   {% for movie in movies %}
   <div class="movies_div">
     <ul>
-      <li>Title: <a href="{{ movie.imdb }}">{{ movie.title }}</a></li>
+      <li>Title: <a href="{{ movie.imdb }}" target="_blank">{{ movie.title }}</a></li>
       <li>Year: {{ movie.year }}</li>
     </ul>
   </div>
