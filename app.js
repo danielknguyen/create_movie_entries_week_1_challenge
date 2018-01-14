@@ -8,8 +8,6 @@ var express = require('express'),
     // templating engine to help display static web pages
     engines = require('consolidate'),
     // connect to mongo shell
-    // connect to mongo database using uri
-    // Pattern is mongodb://{hostname}:{port}/{dbname}
     MongoClient = require('mongodb').MongoClient,
     // allow tests to be written, fail, pass, etc
     assert = require('assert');
@@ -20,7 +18,7 @@ var database;
 app.engine('html', engines.nunjucks);
 
 // middleware to serve static files(css, javascript) into the application
-// app.use(express.static(__dirname + 'public'));
+app.use(express.static('public'));
 
 // set where the view templates are located
 // ___dirname allows full path to directory to views
@@ -35,6 +33,8 @@ app.use(bodyParser.urlencoded({
 // parse data as a json object
 app.use(bodyParser.json());
 
+// connect to mongo database using uri
+// Pattern is mongodb://{hostname}:{port}/{dbname}
 MongoClient.connect('mongodb://127.0.0.1:27017/video', function (err, db) {
 
     // if error display
@@ -60,31 +60,48 @@ MongoClient.connect('mongodb://127.0.0.1:27017/video', function (err, db) {
       var movie_year = req.body.movie.year;
       var movie_imdb = req.body.movie.imdb;
 
-      console.log(req.body);
+      // console.log(req.body);
 
-      database.collection('movies').insertOne(
-        {
-        "title": movie_title,
-        "year": movie_year,
-        "imdb": movie_imdb
-        },
-        function (err, response) {
+      function displayCollection() {
+
+        // query all collections in movies and render view-entries template;
+        database.collection('movies').find({}).toArray(function(err, docs) {
+
+          // if any errors, display error message
           if (err) throw err;
-          console.log("Document added: " + response.insertedId);
-        }
-      );
 
-      // query all collections in movies and render view-entries template;
-      database.collection('movies').find({}).toArray(function(err, docs) {
+          app.set('view-entries', 'html');
 
-        // if any errors, display errorm essage
-        if (err) throw err;
+          // render collection in view-entries page
+          res.render('view-entries.html', { 'movies': docs } );
 
-        app.set('view-entries', 'html');
+        });
+      }
 
-        // render collection in view-entries page
-        res.render('view-entries.html', { 'movies': docs } );
+      database.collection('movies').findOne( {'title': movie_title}, function(err, doc) {
 
+          if (doc) {
+            // A doc with the same name already exists
+            console.log("title exists: " + doc.title);
+            displayCollection();
+          } else {
+            // if err, collection does not exist
+            console.log("title does not exist");
+
+            // add new movie into database
+            database.collection('movies').insertOne(
+              {
+              "title": movie_title,
+              "year": movie_year,
+              "imdb": movie_imdb
+              },
+              function (err, response) {
+                if (err) throw err;
+                console.log("Document added: " + response.insertedId);
+                displayCollection();
+              }
+            );
+          }
       });
     });
 
